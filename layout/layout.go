@@ -2,7 +2,6 @@
 package layout
 
 import (
-	"errors"
 	"fmt"
 	"strings"
 )
@@ -33,7 +32,7 @@ func (l *Layout) asStringWithoutChecksum() string {
 		fmt.Fprintf(&buf, ",%d", *l.PaneID)
 	}
 	if len(l.Children) > 0 {
-		if l.Direction == Horizontal {
+		if l.Direction == Vertical {
 			buf.WriteByte('[')
 		} else {
 			buf.WriteByte('{')
@@ -46,7 +45,7 @@ func (l *Layout) asStringWithoutChecksum() string {
 			buf.WriteString(child.String())
 		}
 
-		if l.Direction == Horizontal {
+		if l.Direction == Vertical {
 			buf.WriteByte(']')
 		} else {
 			buf.WriteByte('}')
@@ -64,10 +63,6 @@ func (l *Layout) String() string {
 	return fmt.Sprintf("%04x,%s", checksum, layoutString)
 }
 
-var ErrParseLayout = errors.New("could not parse layout")
-
-func From(_layout string) (*Layout, error) {
-	l := &Layout{}
-
-	return l, nil
+func From(layout string) (*Layout, error) {
+	return NewParser(layout).Parse()
 }
