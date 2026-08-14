@@ -2,7 +2,6 @@
 package layout
 
 import (
-	"errors"
 	"fmt"
 	"strings"
 )
@@ -64,10 +63,6 @@ func (l *Layout) String() string {
 	return checksum + "," + layoutString
 }
 
-var ErrParseLayout = errors.New("could not parse layout")
-
-func From(_layout string) (*Layout, error) {
-	l := &Layout{}
-
-	return l, nil
+func From(layout string) (*Layout, error) {
+	return NewParser(layout).Parse()
 }
