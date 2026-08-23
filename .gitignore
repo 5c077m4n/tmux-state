@@ -10,5 +10,6 @@
 !README.md
 !LICENSE
 
+!Taskfile.yml
 !.golangci.yaml
 !/.githooks/
