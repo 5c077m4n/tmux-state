@@ -1,6 +1,6 @@
 module github.com/5c077m4n/tmux-state
 
-go 1.26.5
+go 1.27.0
 
 require github.com/stretchr/testify v1.11.1
 
