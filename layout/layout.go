@@ -64,5 +64,5 @@ func (l *Layout) String() string {
 }
 
 func From(layout string) (*Layout, error) {
-	return NewParser(layout).Parse()
+	return Parse(layout)
 }

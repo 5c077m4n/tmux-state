@@ -95,37 +95,37 @@ func (p *parser) parseNumber() (int, error) {
 func (p *parser) parseDimentions(layout *Layout) (*Layout, error) {
 	width, err := p.parseNumber()
 	if err != nil {
-		return nil, errors.Join(ErrParseLayout, err)
+		return nil, err
 	}
 	layout.Width = width
 
-	if err := p.expect('x'); err != nil {
-		return nil, errors.Join(ErrParseLayout, err)
+	if _, err := p.expect('x'); err != nil {
+		return nil, err
 	}
 
 	height, err := p.parseNumber()
 	if err != nil {
-		return nil, errors.Join(ErrParseLayout, err)
+		return nil, err
 	}
 	layout.Height = height
 
-	if err := p.expect(','); err != nil {
-		return nil, errors.Join(ErrParseLayout, err)
+	if _, err := p.expect(','); err != nil {
+		return nil, err
 	}
 
 	x, err := p.parseNumber()
 	if err != nil {
-		return nil, errors.Join(ErrParseLayout, err)
+		return nil, err
 	}
 	layout.X = x
 
-	if err := p.expect(','); err != nil {
-		return nil, errors.Join(ErrParseLayout, err)
+	if _, err := p.expect(','); err != nil {
+		return nil, err
 	}
 
 	y, err := p.parseNumber()
 	if err != nil {
-		return nil, errors.Join(ErrParseLayout, err)
+		return nil, err
 	}
 	layout.Y = y
 
@@ -184,7 +184,7 @@ func (p *parser) parseChildLayouts() ([]*Layout, error) {
 	if isDecimalDigit(p.current()) {
 		paneID, err := p.parseNumber()
 		if err != nil {
-			return nil, errors.Join(ErrParseLayout, err)
+			return nil, err
 		}
 		layoutWithDim.PaneID = &paneID
 
@@ -237,8 +237,16 @@ func (p *parser) parseOuterLayout() (*Layout, error) {
 	return layout, nil
 }
 
-func (p *parser) Parse() (*Layout, error) { return p.parseLayout() }
+func Parse(input string) (*Layout, error) {
+	p := parser{input: strings.ToLower(input), pointer: 0}
 
-func NewParser(input string) *parser {
-	return &parser{input: strings.ToLower(input), pointer: 0}
+	layout, err := p.parseOuterLayout()
+	if err != nil {
+		return nil, errors.Join(
+			ErrParseLayout,
+			fmt.Errorf("%q @ %#v", err, p),
+		)
+	}
+
+	return layout, nil
 }
