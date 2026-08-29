@@ -81,7 +81,7 @@ var layoutStringToStruct = map[string]*Layout{
 func TestLayoutParse(t *testing.T) {
 	for layoutString, expected := range layoutStringToStruct {
 		t.Run(layoutString+" should be parsed to "+expected.String(), func(t *testing.T) {
-			parsed, err := NewParser(layoutString).Parse()
+			parsed, err := Parse(layoutString)
 
 			require.NoError(t, err)
 			assert.Equal(t, expected, parsed)
