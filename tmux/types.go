@@ -20,7 +20,7 @@ type Pane struct {
 type Window struct {
 	ID     string
 	Index  int
-	Name   bool
+	Name   string
 	Active bool
 	Layout *layout.Layout
 	Panes  []Pane
@@ -58,7 +58,7 @@ func StateFrom(stdout string) (State, error) {
 		if err != nil {
 			return nil, errors.Join(ErrParseState, err)
 		}
-		wName := parts[5] == "1"
+		wName := parts[5]
 		wActive := parts[6] == "1"
 		wLayout := parts[7]
 		pID := parts[8]
