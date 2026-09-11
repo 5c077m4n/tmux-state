@@ -2,8 +2,11 @@ package tmux
 
 import (
 	"errors"
+	"log/slog"
 	"strconv"
 	"strings"
+
+	"github.com/5c077m4n/tmux-state/layout"
 )
 
 type Pane struct {
@@ -19,7 +22,7 @@ type Window struct {
 	Index  int
 	Name   bool
 	Active bool
-	Layout string
+	Layout *layout.Layout
 	Panes  []Pane
 }
 type Session struct {
@@ -81,12 +84,17 @@ func StateFrom(stdout string) (State, error) {
 
 		win, ok := windowMap[wID]
 		if !ok {
+			parsedLayout, err := layout.Parse(wLayout)
+			if err != nil {
+				slog.Warn("could not parse layout", slog.Any("error", err))
+			}
+
 			sess.Windows = append(sess.Windows, Window{
 				ID:     wID,
 				Index:  wIdx,
 				Name:   wName,
 				Active: wActive,
-				Layout: wLayout,
+				Layout: parsedLayout,
 			})
 			windowMap[wID] = &sess.Windows[len(sess.Windows)-1]
 			win = windowMap[wID]

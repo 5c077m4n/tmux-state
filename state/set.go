@@ -31,8 +31,8 @@ func RestoreTmuxState(state tmux.State) error {
 				}
 			}
 
-			if w.Layout != "" {
-				_, _, err = tmux.SelectLayout(targetWindow, w.Layout)
+			if w.Layout != nil {
+				_, _, err = tmux.SelectLayout(targetWindow, w.Layout.String())
 				if err != nil {
 					return err
 				}

@@ -4,23 +4,30 @@ package tmux
 import (
 	"bytes"
 	"os/exec"
+	"strings"
 )
 
 const Delimiter = "\u241f"
-const listFormat = "#{session_id}" + Delimiter +
-	"#{session_name}" + Delimiter +
-	"#{session_attached}" + Delimiter +
-	"#{window_id}" + Delimiter +
-	"#{window_index}" + Delimiter +
-	"#{window_name}" + Delimiter +
-	"#{window_active}" + Delimiter +
-	"#{window_layout}" + Delimiter +
-	"#{pane_id}" + Delimiter +
-	"#{pane_index}" + Delimiter +
-	"#{pane_title}" + Delimiter +
-	"#{pane_current_command}" + Delimiter +
-	"#{pane_current_path}" + Delimiter +
-	"#{pane_active}"
+
+var listFormat = strings.Join(
+	[]string{
+		"#{session_id}",
+		"#{session_name}",
+		"#{session_attached}",
+		"#{window_id}",
+		"#{window_index}",
+		"#{window_name}",
+		"#{window_active}",
+		"#{window_layout}",
+		"#{pane_id}",
+		"#{pane_index}",
+		"#{pane_title}",
+		"#{pane_current_command}",
+		"#{pane_current_path}",
+		"#{pane_active}",
+	},
+	Delimiter,
+)
 
 func Cmd(args ...string) (string, string, error) {
 	cmd := exec.Command("tmux", args...)
