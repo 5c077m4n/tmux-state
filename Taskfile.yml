@@ -3,6 +3,8 @@ version: "3"
 tasks:
   test:
     cmd: go test -v ./...
+  bench:
+    cmd: go test -bench=. -benchmem -run=^$ ./layout/
   tidy:
     cmd: go mod tidy
   vet:
