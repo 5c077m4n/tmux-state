@@ -6,8 +6,8 @@ import (
 	"github.com/5c077m4n/tmux-state/tmux"
 )
 
-func RestoreTmuxState(state tmux.State) error {
-	for _, s := range state {
+func RestoreTmuxState(state *tmux.State) error {
+	for _, s := range *state {
 		firstWin := s.Windows[0]
 		_, _, err := tmux.NewSession(s.Name, firstWin.ID)
 		if err != nil {
