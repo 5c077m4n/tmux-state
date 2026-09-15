@@ -6,7 +6,6 @@ import (
 	"errors"
 	"flag"
 	"fmt"
-	"log/slog"
 	"os"
 	"path/filepath"
 
@@ -36,7 +35,7 @@ func stateFilePath() (string, error) {
 }
 
 func saveState() error {
-	s, err := state.GetTmuxState()
+	tmuxState, err := state.GetTmuxState()
 	if err != nil {
 		return errors.Join(ErrStateSave, err)
 	}
@@ -50,7 +49,7 @@ func saveState() error {
 		return errors.Join(ErrStateSave, err)
 	}
 
-	data, err := json.MarshalIndent(s, "", "\t")
+	data, err := json.MarshalIndent(tmuxState, "", "\t")
 	if err != nil {
 		return errors.Join(ErrStateSave, err)
 	}
@@ -83,7 +82,6 @@ func restoreState() error {
 		return errors.Join(ErrStateRestore, err)
 	}
 
-	slog.Info("restored tmux state", slog.String("from", path))
 	return nil
 }
 
