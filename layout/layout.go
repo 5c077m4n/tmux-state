@@ -24,7 +24,7 @@ type Layout struct {
 	Children  []*Layout
 }
 
-func (l *Layout) asStringWithoutChecksum() string {
+func (l *Layout) StringWithoutChecksum() string {
 	var buf strings.Builder
 
 	fmt.Fprintf(&buf, "%dx%d,%d,%d", l.Width, l.Height, l.X, l.Y)
@@ -42,7 +42,7 @@ func (l *Layout) asStringWithoutChecksum() string {
 			if i > 0 {
 				buf.WriteByte(',')
 			}
-			buf.WriteString(child.String())
+			buf.WriteString(child.StringWithoutChecksum())
 		}
 
 		if l.Direction == Vertical {
@@ -57,7 +57,7 @@ func (l *Layout) asStringWithoutChecksum() string {
 
 func (l *Layout) IsPane() bool { return l.PaneID != nil }
 func (l *Layout) String() string {
-	layoutString := l.asStringWithoutChecksum()
+	layoutString := l.StringWithoutChecksum()
 	checksum := calculateTmuxChecksum(layoutString)
 
 	return fmt.Sprintf("%04x,%s", checksum, layoutString)
