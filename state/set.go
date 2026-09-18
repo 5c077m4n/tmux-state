@@ -82,6 +82,16 @@ func RestoreTmuxState(state *tmux.State) error {
 					}
 				}
 
+				if p.Title != "" {
+					if _, err := tmux.SelectPaneTitle(targetPane, p.Title); err != nil {
+						slog.Error(
+							"could not set pane title",
+							slog.Any("error", err),
+							slog.String("pane", targetPane),
+						)
+					}
+				}
+
 				if p.Active {
 					if _, err := tmux.SelectPane(targetPane); err != nil {
 						slog.Error(

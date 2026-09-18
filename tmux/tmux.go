@@ -73,6 +73,10 @@ func SelectPane(target string) (string, error) {
 	return runTMuxCommand("select-pane", "-t", target)
 }
 
+func SelectPaneTitle(target, title string) (string, error) {
+	return runTMuxCommand("select-pane", "-t", target, "-T", title)
+}
+
 func SelectWindow(target string) (string, error) {
 	return runTMuxCommand("select-window", "-t", target)
 }
