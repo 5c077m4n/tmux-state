@@ -8,6 +8,15 @@ import (
 )
 
 var layoutStringToStruct = map[string]*Layout{
+	"d1dd,239x58,0,0,0": {
+		Checksum:  "d1dd",
+		Width:     239,
+		Height:    58,
+		X:         0,
+		Y:         0,
+		PaneID:    new(0),
+		Children:  nil,
+	},
 	"34b0,239x58,0,0[239x47,0,0,1,239x10,0,48,2]": {
 		Checksum:  "34b0",
 		Width:     239,

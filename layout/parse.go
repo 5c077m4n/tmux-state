@@ -27,6 +27,12 @@ func (p *parser) current() rune {
 	}
 	return rune(p.input[p.pointer])
 }
+func (p *parser) peek() rune {
+	if p.pointer >= len(p.input)-1 {
+		return 0
+	}
+	return rune(p.input[p.pointer+1])
+}
 func (p *parser) next() error {
 	if p.pointer < len(p.input)-1 {
 		p.pointer++
@@ -225,6 +231,20 @@ func (p *parser) parseOuterLayout() (*Layout, error) {
 	layout, err := p.parseDimentions(layout)
 	if err != nil {
 		return nil, err
+	}
+
+	if p.current() == ',' && isDecimalDigit(p.peek()) {
+		if err := p.next(); err != nil {
+			return nil, err
+		}
+
+		paneID, err := p.parseNumber()
+		if err != nil && !errors.Is(err, ErrParseOutOfBound) {
+			return nil, err
+		}
+		layout.PaneID = &paneID
+
+		return layout, nil
 	}
 
 	layout.Direction = p.getDirection()
