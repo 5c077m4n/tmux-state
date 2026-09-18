@@ -14,7 +14,7 @@ func RestoreTmuxState(state *tmux.State) error {
 		}
 
 		firstWin := s.Windows[0]
-		if _, err := tmux.NewSession(s.Name, firstWin.ID); err != nil {
+		if _, err := tmux.NewSession(s.Name, firstWin.Name); err != nil {
 			slog.Error(
 				"could not create session",
 				slog.Any("error", err),
@@ -25,7 +25,7 @@ func RestoreTmuxState(state *tmux.State) error {
 
 		for windowIdx, w := range s.Windows {
 			if windowIdx > 0 {
-				if _, err := tmux.NewWindow(s.Name, w.ID); err != nil {
+				if _, err := tmux.NewWindow(s.Name, w.Name); err != nil {
 					slog.Error(
 						"could not create window",
 						slog.Any("error", err),

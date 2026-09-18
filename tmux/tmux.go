@@ -52,12 +52,12 @@ func ListPanes() (string, error) {
 	return runTMuxCommand("list-panes", "-a", "-F", listFormat)
 }
 
-func NewSession(sessionName, windowID string) (string, error) {
-	return runTMuxCommand("new-session", "-d", "-s", sessionName, "-n", windowID)
+func NewSession(sessionName, windowName string) (string, error) {
+	return runTMuxCommand("new-session", "-d", "-s", sessionName, "-n", windowName)
 }
 
-func NewWindow(target, windowID string) (string, error) {
-	return runTMuxCommand("new-window", "-t", target, "-n", windowID)
+func NewWindow(sessionName, windowName string) (string, error) {
+	return runTMuxCommand("new-window", "-t", sessionName, "-n", windowName)
 }
 
 func SplitWindow(target string) (string, error) {
