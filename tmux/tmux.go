@@ -37,6 +37,9 @@ func runTMuxCommand(args ...string) (string, error) {
 	cmd.Stderr = &stderr
 
 	if err := cmd.Run(); err != nil {
+		if errMsg := stderr.String(); errMsg != "" {
+			return "", errors.Join(errors.New(errMsg), err)
+		}
 		return "", err
 	}
 	if errMsg := stderr.String(); errMsg != "" {
