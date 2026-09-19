@@ -24,6 +24,7 @@ var listFormat = strings.Join(
 		"#{pane_index}",
 		"#{pane_title}",
 		"#{pane_current_command}",
+		"#{pane_tty}",
 		"#{pane_current_path}",
 		"#{pane_active}",
 	},
